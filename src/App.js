@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import client from "./client";
 import { ApolloProvider } from "react-apollo";
 import { Query } from "react-apollo";
@@ -41,8 +41,13 @@ class App extends Component {
           {({ loading, error, data }) => {
             if (loading) return "loading...";
             if (error) return `Error! ${error.message}`;
-            console.log({ data });
-            return <div></div>;
+            const search = data.search;
+            const repositoryCount = search.repositoryCount;
+            const repositoryUnit =
+              repositoryCount === 1 ? "Repository" : "Repositories";
+            const title = `GitHub Repository Search Result - ${repositoryCount} ${repositoryUnit}`;
+
+            return <h2>{title}</h2>;
           }}
         </Query>
       </ApolloProvider>
