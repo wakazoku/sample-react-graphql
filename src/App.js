@@ -43,21 +43,15 @@ const DEFAULT_STATE = {
   after: null,
   before: null,
   last: null,
-  query: "フロントエンドエンジニア",
+  query: "",
 };
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = DEFAULT_STATE;
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleChange(event) {
-    this.setState({
-      ...DEFAULT_STATE,
-      query: event.target.value,
-    });
+    this.myRef = React.createRef();
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   goNext(search) {
@@ -78,12 +72,20 @@ class App extends Component {
     });
   }
 
+  handleSubmit(event) {
+    event.preventDefault();
+    this.setState({
+      query: this.myRef.current.value,
+    });
+  }
+
   render() {
     const { query, first, last, before, after } = this.state;
     return (
       <ApolloProvider client={client}>
-        <form action="">
-          <input type="text" value={query} onChange={this.handleChange} />
+        <form onSubmit={this.handleSubmit}>
+          <input type="text" ref={this.myRef} />
+          <input type="submit" value="Submit" />
         </form>
         <Query
           query={SEARCH_REPOSITORIES}
