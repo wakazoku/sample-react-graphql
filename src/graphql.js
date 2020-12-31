@@ -10,7 +10,7 @@ export const ME = gql`
 `;
 
 export const SEARCH_REPOSITORIES = gql`
-  query serchRepository(
+  query searchRepository(
     $first: Int
     $after: String
     $last: Int
